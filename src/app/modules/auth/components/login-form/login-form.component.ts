@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faPen, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '@services/auth.service';
+import { RequestStatus } from '@models/request-status.model'
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html'
 })
 export class LoginFormComponent {
-
   form = this.formBuilder.nonNullable.group({
     email: ['', [Validators.email, Validators.required]],
     password: ['', [ Validators.required, Validators.minLength(6)]],
@@ -17,18 +18,31 @@ export class LoginFormComponent {
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   showPassword = false;
-  status: string = 'init';
+  status: RequestStatus = 'init';
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    // private requestStatus: RequestStatus
   ) { }
 
   doLogin() {
     if (this.form.valid) {
       this.status = 'loading';
       const { email, password } = this.form.getRawValue();
-      // TODO
+      this.authService.login(email, password)
+      .subscribe({
+        // si es correcta la respuesta ejecutamos next
+        next: () => {
+          this.status = 'success';
+          this.router.navigate(['/home'])
+        },
+        // sino es correcta la respuesta ejecutamos error
+        error: () => {
+          this.status = 'failed';
+        }
+      });
     } else {
       this.form.markAllAsTouched();
     }

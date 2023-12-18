@@ -10,11 +10,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'boards',
+        redirectTo: 'pointback',
         pathMatch: 'full'
       },
       {
-        path: 'boards',
+        path: 'pointback',
         loadChildren: () =>
           import('../boards/boards.module').then((m) => m.BoardsModule),
       },

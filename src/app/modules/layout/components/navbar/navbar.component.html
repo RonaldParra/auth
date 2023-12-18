@@ -1,4 +1,4 @@
-<nav class="bg-red-700  border-red-200 px-6 shadow-md">
+<nav class="bg-red-700  border-red-200 px-6 shadow-md p-2">
   <div class="flex flex-wrap justify-between items-center">
     <div class="flex items-center">
       <a routerLink="/app">
@@ -11,6 +11,7 @@
       </a>
       <div class="flex items-center">
 
+         <!-- user icon
         <ul class="flex items-center space-x-2 text-sm font-medium">
           <li>
             <app-btn
@@ -32,17 +33,22 @@
             <app-btn typeBtn="button" color="sky">Create</app-btn>
           </li>
         </ul>
+        -->
       </div>
     </div>
+
+    <!-- user icon -->
     <div class="flex items-center">
       <div class="flex space-x-2">
-        <!---->
+        <!--
         <button class="text-white" type="button">
           <fa-icon [icon]="faBell"></fa-icon>
         </button>
+
         <button class="text-white" type="button">
           <fa-icon [icon]="faInfoCircle"></fa-icon>
         </button>
+         -->
         <button
           type="button"
           class="flex rounded-full"
@@ -54,15 +60,16 @@
         >
           <img
             class="w-8 h-8 rounded-full"
-            src="https://api.lorem.space/image/face?w=400&h=400"
+            src="/assets/images/userico.png"
             alt="user photo"
           />
         </button>
       </div>
     </div>
+
   </div>
 </nav>
-
+<!-- overlay user-->
 <ng-template
   cdkConnectedOverlay
   [cdkConnectedOverlayOrigin]="menuOverlay"
@@ -73,7 +80,7 @@
     class="z-50 my-4 w-60 text-base list-none bg-white rounded divide-y divide-gray-100 shadow"
   >
     <div class="py-2 px-4 text-center relative">
-      <span class="block text-normal text-gray-900">Account</span>
+      <span class="block text-normal text-gray-900">Tu cuenta!</span>
       <button
         (click)="isOpenOverlayAvatar = !isOpenOverlayAvatar"
         class="block text-sm text-gray-900 absolute right-3 top-3"
@@ -84,14 +91,15 @@
     <div class="py-3 px-4 flex items-center space-x-4">
       <img
         class="w-10 h-10 rounded-full"
-        src="https://api.lorem.space/image/face?w=400&h=400"
+        src="/assets/images/userico.png"
         alt=""
       />
       <div class="space-y-1">
-        <div>Jese Leos</div>
-        <div class="text-sm text-gray-500">nico@gmail.com</div>
+        <div>Leo Messi</div>
+        <div class="text-sm text-gray-500">xxx@xxx.com</div>
       </div>
     </div>
+     <!--
     <ul class="py-1">
       <li>
         <a
@@ -119,32 +127,12 @@
         >
       </li>
     </ul>
+    -->
     <ul class="py-1">
       <li>
-        <a class="block py-2 px-4 text-sm text-gray-700">Log out</a>
+        <a class="block py-2 px-4 text-sm text-gray-700">Cerrar Sesión</a>
       </li>
     </ul>
   </div>
 </ng-template>
 
-<ng-template
-  cdkConnectedOverlay
-  [cdkConnectedOverlayOrigin]="boardsOverlay"
-  [cdkConnectedOverlayOpen]="isOpenOverlayBoards"
-  (overlayOutsideClick)="isOpenOverlayBoards = !isOpenOverlayBoards"
->
-  <div
-    class="z-50 my-4 w-60 text-base list-none bg-white rounded divide-y divide-gray-100 shadow"
-  >
-    <div class="py-2 px-4 text-center relative">
-      <span class="block text-normal text-gray-900">Boards</span>
-      <button
-        (click)="isOpenOverlayBoards = !isOpenOverlayBoards"
-        class="block text-sm text-gray-900 absolute right-3 top-3"
-      >
-        <fa-icon [icon]="faClose"></fa-icon>
-      </button>
-    </div>
-    <div class="py-3 px-4 flex justify-between">Content</div>
-  </div>
-</ng-template>

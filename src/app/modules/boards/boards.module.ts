@@ -10,6 +10,7 @@ import { BoardsRoutingModule } from './boards-routing.module';
 import { BoardsComponent } from './pages/boards/boards.component';
 import { BoardComponent } from './pages/board/board.component';
 import { TodoDialogComponent } from './components/todo-dialog/todo-dialog.component';
+import { NgxAnimatedCounterModule } from '@bugsplat/ngx-animated-counter';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { TodoDialogComponent } from './components/todo-dialog/todo-dialog.compon
     DragDropModule,
     CdkAccordionModule,
     DialogModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxAnimatedCounterModule
   ]
 })
 export class BoardsModule { }

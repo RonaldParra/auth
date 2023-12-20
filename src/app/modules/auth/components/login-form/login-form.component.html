@@ -1,15 +1,17 @@
-<h1 class="text-center  py-2 text-red-300">Consulta tus puntos aqui!</h1>
+<h1 class="py-2 text-red-300 text-xl mb-3.5">Consulta tus puntos!</h1>
 
 <form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="doLogin()">
   <div>
 
+
+    <label *ngIf="mens == true" for="email" class="block text-xs font-semibold my-2"><p> Tu email ya aparece registrado!</p></label>
     <div class="relative">
       <input
         #nameInput
         formControlName="email"
         placeholder="Digita tu email"
         type="email"
-        class="w-full rounded bg-red-50 border-red-100 border-1"
+        class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
       />
       <button type="button" class="p-2 absolute right-2 text-red-300" (click)="nameInput.focus()">
         <fa-icon [icon]="faPen"></fa-icon>
@@ -40,7 +42,7 @@
         formControlName="password"
         placeholder="Tu contraseña"
         [type]="showPassword ? 'text' : 'password'"
-        class="w-full rounded bg-red-50 border-red-100 border-1"
+        class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
       />
       <button type="button" class="p-2 absolute right-2 text-red-300" (click)="showPassword = !showPassword">
         <fa-icon [icon]="showPassword ? faEye : faEyeSlash"></fa-icon>
@@ -68,7 +70,7 @@
     </div>
     <!-- msn error ############ -->
   </div>
-  <div>
+  <div class="text-center">
     <app-btn
       typeBtn="submit"
       color="success"

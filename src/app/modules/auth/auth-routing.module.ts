@@ -15,22 +15,22 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    title: 'Login'
+    title: 'PointBack Login'
   },
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent,
-    title: 'Forgot Password'
+    title: 'Olvido su contraseña'
   },
   {
     path: 'register',
     component: RegisterComponent,
-    title: 'Register'
+    title: 'Registro PointBack'
   },
   {
     path: 'recovery',
     component: RecoveryComponent,
-    title: 'Recovery'
+    title: 'Recuperar Contraseña area PointBack '
   }
 ];
 

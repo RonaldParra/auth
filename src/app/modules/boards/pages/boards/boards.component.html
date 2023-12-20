@@ -1,10 +1,12 @@
 <div class="container mx-auto flex mt-10">
 
   <div class="w-full">
-    <h1 class="text-lg font-bold mb-4"><fa-icon [icon]="faStar"></fa-icon> Actualmente tienes acumulados: </h1>
+    <h1 class="text-lg font-bold mb-4 text-center"><fa-icon [icon]="faStar"></fa-icon> Actualmente acumulas: </h1>
     <!-- <div class="grid grid-cols-2 gap-2 bg-red-50">-->
     <div class="text-center bg-red-50 p-2">
-      <div class="text-9xl"> 100</div>
+      <div class="text-9xl">
+        <ngx-animated-counter [params]="params"></ngx-animated-counter>
+      </div>
       <div class="text-5xl"> PUNTOS!</div>
     </div>
   </div>

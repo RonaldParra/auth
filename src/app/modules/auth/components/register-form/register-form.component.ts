@@ -18,6 +18,8 @@ export class RegisterFormComponent {
   });
   form = this.formBuilder.nonNullable.group({
     name: ['', [Validators.required]],
+    tipo: ['', [Validators.required]],
+    documento: ['', [Validators.minLength(8), Validators.required]],
     email: ['', [Validators.email, Validators.required]],
     password: ['', [Validators.minLength(8), Validators.required]],
     confirmPassword: ['', [Validators.required]],
@@ -42,12 +44,12 @@ export class RegisterFormComponent {
       this.status = 'loading';
       const { name, email, password } = this.form.getRawValue();
       // console.log(name, email, password);
-      this.authService.register(name, email, password)
+      this.authService.registerAndLogin(name, email, password)
       .subscribe({
         // si es correcta la respuesta ejecutamos next
         next: () => {
           this.status = 'success';
-          this.router.navigate(['/login'])
+          this.router.navigate(['/home/pointback'])
         },
         // sino es correcta la respuesta ejecutamos error
         error: (error) => {
@@ -73,7 +75,9 @@ export class RegisterFormComponent {
             this.showRegister = true;
             this.form.controls.email.setValue(email);
           } else {
-            this.router.navigate(['/login'])
+            this.router.navigate(['/login'], {
+              queryParams: { email }
+            });
           }
         },
         error: (error) => {

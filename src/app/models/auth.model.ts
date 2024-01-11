@@ -1,4 +1,15 @@
 export interface ResponseLogin {
-  access_token: string;
-  refresh_token: string;
+    data:               Data;
+    count:              number;
+    transaction_status: TransactionStatus;
+}
+
+export interface Data {
+    token: string;
+    email: string;
+}
+
+export interface TransactionStatus {
+    code: number;
+    msg:  string;
 }

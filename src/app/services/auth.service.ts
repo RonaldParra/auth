@@ -18,14 +18,14 @@ export class AuthService {
     private tokenService: TokenService
   ) { }
 
-    login(email: string, password: string){
-      return this.http.post<ResponseLogin>(`${this.apiUrl}/api/v1/auth/login`,{
+    login(email: string, pwd: string){
+      return this.http.post<ResponseLogin>(this.apiUrl,{
         email,
-        password
+        pwd
       })
       .pipe(
         tap(response => {
-          this.tokenService.savenToken(response.access_token);
+          this.tokenService.savenToken(response.data.token);
         })
       );
     }

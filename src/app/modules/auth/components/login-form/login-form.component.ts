@@ -49,7 +49,9 @@ export class LoginFormComponent {
           this.router.navigate(['/home'])
         },
         // sino es correcta la respuesta ejecutamos error
-        error: () => {
+        error: (error) => {
+          console.log('errorrrrrr:');
+          console.log(error);
           this.status = 'failed';
         }
       });

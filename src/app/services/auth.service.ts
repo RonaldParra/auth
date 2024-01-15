@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { switchMap, tap } from 'rxjs/operators';
 import { TokenService } from '@services/token.service';
@@ -12,6 +12,7 @@ import { User } from '@models/user.model';
 export class AuthService {
 
   apiUrl = environment.API_URL
+  // const headers = { 'Api-Key:': '202b6fa62848095696b467059086e4a059f514a951a021fb796059a27c69a9f6ca16', 'Route:':'login','Content-Type': 'application/json' };
 
   constructor(
     private http: HttpClient,
@@ -19,10 +20,21 @@ export class AuthService {
   ) { }
 
     login(email: string, pwd: string){
-      return this.http.post<ResponseLogin>(this.apiUrl,{
+      /*let headers = new Headers();
+      headers.append('Content-Type','application/json');
+      headers.append('Api-Key','202b6fa62848095696b467059086e4a059f514a951a021fb796059a27c69a9f6ca16');
+      headers.append('Route','login');*/
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Api-Key': '202b6fa62848095696b467059086e4a059f514a951a021fb796059a27c69a9f6ca16',
+        'Route': 'login'
+        });
+      let options = { headers: headers };
+      // let options = new RequestOptions({headers:headerx});
+      return this.http.post<ResponseLogin>(`${this.apiUrl}/api_point_back.php/`,{
         email,
         pwd
-      })
+      }, options)
       .pipe(
         tap(response => {
           this.tokenService.savenToken(response.data.token);

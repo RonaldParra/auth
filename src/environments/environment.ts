@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  API_URL: 'https://pruebas.cineland.net/api_point_back.php'
+  API_URL: 'https://pruebas.cineland.net',
+  API_KEY: '202b6fa62848095696b467059086e4a059f514a951a021fb796059a27c69a9f6ca16'
 };
 
 /*

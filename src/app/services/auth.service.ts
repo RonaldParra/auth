@@ -12,6 +12,8 @@ import { User } from '@models/user.model';
 export class AuthService {
 
   apiUrl = environment.API_URL
+  apiKey = environment.API_KEY
+
   // const headers = { 'Api-Key:': '202b6fa62848095696b467059086e4a059f514a951a021fb796059a27c69a9f6ca16', 'Route:':'login','Content-Type': 'application/json' };
 
   constructor(
@@ -25,13 +27,12 @@ export class AuthService {
       headers.append('Api-Key','202b6fa62848095696b467059086e4a059f514a951a021fb796059a27c69a9f6ca16');
       headers.append('Route','login');*/
       let headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Api-Key': '202b6fa62848095696b467059086e4a059f514a951a021fb796059a27c69a9f6ca16',
+        'Api-Key': this.apiKey,
         'Route': 'login'
         });
       let options = { headers: headers };
       // let options = new RequestOptions({headers:headerx});
-      return this.http.post<ResponseLogin>(`${this.apiUrl}/api_point_back.php/`,{
+      return this.http.post<ResponseLogin>(`${this.apiUrl}/api_point_back.php`,{
         email,
         pwd
       }, options)

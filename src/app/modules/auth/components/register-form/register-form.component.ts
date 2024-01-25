@@ -103,7 +103,7 @@ export class RegisterFormComponent {
         next: (rta) => {
           this.statusUserExist = 'success';
           console.log(rta)
-          if (rta.isAvailable == 0){
+          if (rta.isAvailable){
             this.showRegister = true;
             this.form.controls.email.setValue(email);
             this.form.controls.documento.setValue(documento);

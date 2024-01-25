@@ -40,7 +40,7 @@ export class AuthService {
     }, options)
     .pipe(
       tap(response => {
-        switchMap(() => this.isAvailable(response.data.token, x, p))
+       // switchMap(() => this.isAvailable(response.data.token, x, p))
       })
     );
     /*

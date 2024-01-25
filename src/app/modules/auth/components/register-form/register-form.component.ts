@@ -41,6 +41,35 @@ export class RegisterFormComponent {
     private authService: AuthService,
   ) {}
 
+  doLoginAdmin() { 
+    if (this.form.valid) {
+      this.status = 'loading';
+      // valores email y password deben ser ocultossssss
+      // valores email y password deben ser ocultossssss
+      // valores email y password deben ser ocultossssss
+      const  email = 'webysistemas@gmail.com'
+      const  password = '929e7@2C8Kq'
+      this.authService.loginAdmin(email, password)
+      .subscribe({
+        // si es correcta la respuesta ejecutamos next
+        next: () => {
+          console.log('el admin se pudo loguear')
+          console.log()
+          this.status = 'success';
+          this.router.navigate(['/home'])
+        },
+        // sino es correcta la respuesta ejecutamos error
+        error: (error) => {
+          console.log('errorrrrrr:');
+          console.log(error);
+          this.status = 'failed';
+        }
+      });
+    } else {
+      this.form.markAllAsTouched();
+    }
+  }
+
   register() {
     if (this.form.valid) {
       this.status = 'loading';
@@ -64,6 +93,38 @@ export class RegisterFormComponent {
     }
   }
 
+  validateUser(){
+    if (this.formUserExist.valid){
+      this.statusUserExist = 'loading';
+      const { email } = this.formUserExist.getRawValue();
+      // const { tipodoc } = this.formUserExist.getRawValue();
+      const { documento } = this.formUserExist.getRawValue();
+      this.authService.loginAdmin(email, documento)
+      .subscribe({
+        next: (rta) => {
+          this.statusUserExist = 'success';
+          console.log(rta)
+          if (rta.isAvailable == 0){
+            this.showRegister = true;
+            this.form.controls.email.setValue(email);
+            this.form.controls.documento.setValue(documento);
+          } else {
+            this.router.navigate(['/login'], {
+              queryParams: { email }
+            });
+          }
+        },
+        error: (error) => {
+          this.statusUserExist = 'failed';
+          console.log(error)
+        }
+      })
+    } else {
+      this.formUserExist.markAllAsTouched();
+    }
+  }
+
+  /*
   validateUser(){
     if (this.formUserExist.valid){
       this.statusUserExist = 'loading';
@@ -93,4 +154,5 @@ export class RegisterFormComponent {
       this.formUserExist.markAllAsTouched();
     }
   }
+  */
 }

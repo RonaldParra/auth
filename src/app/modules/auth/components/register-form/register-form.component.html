@@ -1,8 +1,11 @@
 <div *ngIf="!showRegister">
 <h1 class="font-bold py-2 text-gray-700 mb-3.5">Registrate: </h1>
 
+ <!-- form validacion de registro-->
 <form [formGroup]="formUserExist" novalidate class="space-y-4" (ngSubmit)="validateUser()">
   <div>
+
+    <!-- campo email-->
     <div class="relative">
       <input
         formControlName="email"
@@ -12,6 +15,7 @@
         class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
       />
     </div>
+    <!-- mensajes de validacion-->
     <div *ngIf="formUserExist.controls.email.touched && formUserExist.controls.email.invalid">
       <p
         *ngIf="formUserExist.controls.email.hasError('required')"
@@ -26,17 +30,22 @@
         Debes digitar un email
       </p>
     </div>
+    <!-- fin campo email-->
+
+    <!-- campo tipo documento-->
+     <!-- fin campo tipo documento-->
 
     <!-- campo documento-->
-    <div class="relative">
+    <div class="relative mt-3">
       <input
         formControlName="documento"
-        placeholder="Digita tu documento de identidad"
+        placeholder="Tu documento de identidad"
         type="text"
         name="documento"
         class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
       />
     </div>
+    <!-- mensajes de validacion-->
     <div *ngIf="formUserExist.controls.documento.touched && formUserExist.controls.documento.invalid">
       <p
         *ngIf="formUserExist.controls.documento.hasError('required')"
@@ -61,9 +70,11 @@
   </div>
 </form>
 </div>
+<!-- fin form validacion de registro-->
 
 
 
+ <!-- form registro-->
 <div *ngIf="showRegister">
 <h1 class="font-bold py-2 text-gray-700 mb-3.5">Por favor dilgencia el resto de información.</h1>
 <form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="register()">

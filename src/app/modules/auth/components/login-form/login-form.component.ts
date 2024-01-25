@@ -37,7 +37,7 @@ export class LoginFormComponent {
       })
    }
 
-  doLogin() {
+  doLogin() { 
     if (this.form.valid) {
       this.status = 'loading';
       const { email, password } = this.form.getRawValue();

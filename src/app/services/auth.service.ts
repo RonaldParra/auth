@@ -87,6 +87,7 @@ export class AuthService {
       );
     }
 
+    /*
     isAvailable(token: string, x: string, p: string){
       let headers = new HttpHeaders({
         'Api-Key': this.apiKey,
@@ -99,15 +100,16 @@ export class AuthService {
         p
       }, options)
     }
+    */
 
-    /*
+    
      isAvailable(email: string, documento: string){
       return this.http.post<{isAvailable: boolean}>(`${this.apiUrl}/api/v1/auth/is-available`,{
         email,
         documento
       })
     }
-    */
+    
 
     recovery(email: string){
       return this.http.post<{isAvailable: boolean}>(`${this.apiUrl}/api/v1/auth/recovery`,{

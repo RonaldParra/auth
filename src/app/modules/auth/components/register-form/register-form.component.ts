@@ -98,7 +98,7 @@ export class RegisterFormComponent {
       const { email } = this.formUserExist.getRawValue();
       // const { tipodoc } = this.formUserExist.getRawValue();
       const { documento } = this.formUserExist.getRawValue();
-      this.authService.loginAdmin(email, documento)
+      this.authService.isAvailable(email, documento)
       .subscribe({
         next: (rta) => {
           this.statusUserExist = 'success';

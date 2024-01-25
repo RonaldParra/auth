@@ -1,5 +1,6 @@
 <div *ngIf="!showRegister">
 <h1 class="font-bold py-2 text-gray-700 mb-3.5">Registrate: </h1>
+
 <form [formGroup]="formUserExist" novalidate class="space-y-4" (ngSubmit)="validateUser()">
   <div>
     <div class="relative">
@@ -16,15 +17,42 @@
         *ngIf="formUserExist.controls.email.hasError('required')"
         class="font-medium text-red-500 text-xs mt-1 ml-1"
       >
-        This field is mandatory
+        Campo obligatorio
       </p>
       <p
         *ngIf="formUserExist.controls.email.hasError('email')"
         class="font-medium text-red-500 text-xs mt-1 ml-1"
       >
-        This field should be a email
+        Debes digitar un email
       </p>
     </div>
+
+    <!-- campo documento-->
+    <div class="relative">
+      <input
+        formControlName="documento"
+        placeholder="Digita tu documento de identidad"
+        type="text"
+        name="documento"
+        class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
+      />
+    </div>
+    <div *ngIf="formUserExist.controls.documento.touched && formUserExist.controls.documento.invalid">
+      <p
+        *ngIf="formUserExist.controls.documento.hasError('required')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Campo obligatorio
+      </p>
+      <p
+        *ngIf="formUserExist.controls.documento.hasError('minLength')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        tu documento debe tener mas de 8 digitos 
+      </p>
+    </div>
+    <!-- fin campo documento-->
+
   </div>
   <div class="text-center">
     <app-btn typeBtn="submit" color="success" [loading]="statusUserExist === 'loading'"
@@ -61,6 +89,27 @@
     </div>
   </div>
 
+  <!-- lastname-->
+  <div>
+    <div class="relative">
+      <input
+        formControlName="lastname"
+        placeholder="Apellidos"
+        type="text"
+        name="lastname"
+        class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
+      />
+    </div>
+    <div *ngIf="form.controls.lastname.touched && form.controls.lastname.invalid">
+      <p
+        *ngIf="form.controls.lastname.hasError('required')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Campo obligatorio
+      </p>
+    </div>
+  </div>
+
   <!-- tipo documento-->
   <div>
     <div class="relative">
@@ -70,8 +119,10 @@
         class="w-3/4 rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
       >
       <option value=""> Tipo de documento </option>
-      <option value="cc"> Cedula </option>
-      <option value="pasaporte"> Pasaporte </option>
+      <option value="CC"> Cedula </option>
+      <option value="P"> Pasaporte </option>
+      <option value="CE"> Cedula Extranjeria</option>
+      <option value="TI"> Tajeta de Identidad </option>
       </select>
     </div>
     <div *ngIf="form.controls.tipo.touched && form.controls.tipo.invalid">
@@ -101,6 +152,12 @@
         class="font-medium text-red-500 text-xs mt-1 ml-1"
       >
         Campo obligatorio
+      </p>
+      <p
+        *ngIf="form.controls.documento.hasError('minLength')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Tu doumento debe tener minimo 8 caracteres
       </p>
     </div>
   </div>

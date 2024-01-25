@@ -14,10 +14,12 @@ import { AuthService } from '@services/auth.service';
 export class RegisterFormComponent {
 
   formUserExist = this.formBuilder.nonNullable.group({
-    email: ['', [Validators.email, Validators.required]]
+    email: ['', [Validators.email, Validators.required]],
+    documento: ['', [Validators.minLength(8), Validators.required]]
   });
   form = this.formBuilder.nonNullable.group({
     name: ['', [Validators.required]],
+    lastname: ['', [Validators.required]],
     tipo: ['', [Validators.required]],
     documento: ['', [Validators.minLength(8), Validators.required]],
     email: ['', [Validators.email, Validators.required]],
@@ -42,9 +44,9 @@ export class RegisterFormComponent {
   register() {
     if (this.form.valid) {
       this.status = 'loading';
-      const { name, email, password } = this.form.getRawValue();
+      const { name, lastname, tipo, documento, email, password } = this.form.getRawValue();
       // console.log(name, email, password);
-      this.authService.registerAndLogin(name, email, password)
+      this.authService.registerAndLogin(name, lastname, tipo, documento, email, password)
       .subscribe({
         // si es correcta la respuesta ejecutamos next
         next: () => {
@@ -66,6 +68,7 @@ export class RegisterFormComponent {
     if (this.formUserExist.valid){
       this.statusUserExist = 'loading';
       const { email } = this.formUserExist.getRawValue();
+      const { documento } = this.formUserExist.getRawValue();
       this.authService.isAvailable(email)
       .subscribe({
         next: (rta) => {
@@ -74,6 +77,7 @@ export class RegisterFormComponent {
           if (rta.isAvailable){
             this.showRegister = true;
             this.form.controls.email.setValue(email);
+            this.form.controls.documento.setValue(documento);
           } else {
             this.router.navigate(['/login'], {
               queryParams: { email }

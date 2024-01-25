@@ -50,9 +50,9 @@ export class AuthService {
         password
       })
     }
-
-    registerAndLogin(name: string, email: string, password: string){
-      return this.register(name, email, password)
+  
+    registerAndLogin(name: string, lastname: string, tipo: string, documento: string, email: string, password: string){
+      return this.register(name, lastname, tipo, documento, email, password)
       .pipe(
         switchMap(() => this.login(email, password))
       );

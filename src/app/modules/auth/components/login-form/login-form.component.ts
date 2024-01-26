@@ -44,7 +44,8 @@ export class LoginFormComponent {
       this.authService.login(email, password)
       .subscribe({
         // si es correcta la respuesta ejecutamos next
-        next: () => {
+        next: (resp) => {
+          // this.doGetPoints(resp.data.token)
           this.status = 'success';
           this.router.navigate(['/home'])
         },
@@ -60,4 +61,21 @@ export class LoginFormComponent {
     }
   }
 
+  doGetPoints(tokenUser: string){
+    console.log('entre en doGetPoints')
+    this.authService.getPoints(tokenUser)
+    .subscribe({
+      // si es correcta la respuesta ejecutamos next
+      next: () => {
+        this.status = 'success';
+        console.log('exitooooooos:');
+      },
+      // sino es correcta la respuesta ejecutamos error
+      error: (error) => {
+        console.log('errorrrrrr doGetPoints:');
+        console.log(error);
+        this.status = 'failed';
+      }
+    });
+  }
 }

@@ -1,11 +1,13 @@
 <div *ngIf="!showRegister">
-<h1 class="font-bold py-2 text-gray-700 mb-3.5">Registrate: </h1>
+<h1 class="font-bold py-2 text-gray-700 mb-3.5">Registrate aqui: </h1>
 
  <!-- form validacion de registro-->
-<form [formGroup]="formUserExist" novalidate class="space-y-4" (ngSubmit)="validateUser()">
+ <!-- <form [formGroup]="formUserExist" novalidate class="space-y-4" (ngSubmit)="validateUser()"> -->
+<form [formGroup]="formUserExist" novalidate class="space-y-4" (ngSubmit)="doLoginadmin()">
   <div>
 
-    <!-- campo email -->
+    <!-- ######## campo email -->
+    <!-- ######## campo email -->
     <div class="relative">
       <input
         formControlName="email"
@@ -30,13 +32,39 @@
         Debes digitar un email
       </p>
     </div>
-    <!-- fin campo email-->
+    <!-- fin campo email ###########-->
+    <!-- fin campo email ###########-->
+    
+    <!-- ######## campo tipo documento-->
+    <!-- ######## campo tipo documento-->
+    <div class="relative my-3">
+      <select
+        formControlName="tipo"
+        name="tipo"
+        class="w-3/4 rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
+      >
+        <option value=""> Tipo de documento </option>
+        <option value="1"> Cedula </option>
+        <option value="2"> Pasaporte </option>
+        <option value="3"> Cedula Extranjeria</option>
+        <option value="4"> Tajeta de Identidad </option>
+      </select>
+    </div>
+     <!-- mensajes de validacion-->
+    <div *ngIf="form.controls.tipo.touched && form.controls.tipo.invalid">
+      <p
+        *ngIf="form.controls.tipo.hasError('required')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Campo obligatorio
+      </p>
+    </div>
+    <!-- fin campo tipo documento ###########-->
+    <!-- fin campo tipo documento ###########-->
 
-    <!-- campo tipo documento-->
-     <!-- fin campo tipo documento-->
-
-    <!-- campo documento-->
-    <div class="relative mt-3">
+    <!-- ######## campo documento -->
+    <!-- ######## campo documento -->
+    <div class="relative">
       <input
         formControlName="documento"
         placeholder="Tu documento de identidad"
@@ -51,7 +79,7 @@
         *ngIf="formUserExist.controls.documento.hasError('required')"
         class="font-medium text-red-500 text-xs mt-1 ml-1"
       >
-        Campo obligatorio
+        Documento obligatorio
       </p>
       <p
         *ngIf="formUserExist.controls.documento.hasError('minLength')"
@@ -60,7 +88,8 @@
         tu documento debe tener mas de 8 digitos 
       </p>
     </div>
-    <!-- fin campo documento-->
+    <!-- fin campo documento ######## -->
+    <!-- fin campo documento ######## -->
 
   </div>
   <div class="text-center">
@@ -73,8 +102,8 @@
 <!-- fin form validacion de registro-->
 
 
-
- <!-- form registro-->
+<!-- #######################3 form registro ######################### -->
+<!-- #######################3 form registro ######################### -->
 <div *ngIf="showRegister">
 <h1 class="font-bold py-2 text-gray-700 mb-3.5">Por favor dilgencia el resto de información.</h1>
 <form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="register()">
@@ -121,82 +150,29 @@
     </div>
   </div>
 
-  <!-- tipo documento-->
+  <!-- phone -->
   <div>
     <div class="relative">
-      <select
-        formControlName="tipo"
-        name="tipo"
-        class="w-3/4 rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
-      >
-      <option value=""> Tipo de documento </option>
-      <option value="CC"> Cedula </option>
-      <option value="P"> Pasaporte </option>
-      <option value="CE"> Cedula Extranjeria</option>
-      <option value="TI"> Tajeta de Identidad </option>
-      </select>
-    </div>
-    <div *ngIf="form.controls.tipo.touched && form.controls.tipo.invalid">
-      <p
-        *ngIf="form.controls.tipo.hasError('required')"
-        class="font-medium text-red-500 text-xs mt-1 ml-1"
-      >
-        Campo obligatorio
-      </p>
-    </div>
-  </div>
-
-   <!-- documento-->
-   <div>
-    <div class="relative">
       <input
-        formControlName="documento"
-        placeholder="# Documento"
-        type="text"
-        name="documento"
+        formControlName="phone"
+        placeholder="Numero de Telefono"
+        type="tel"
+        name="phone"
         class="w-3/4 rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
       />
     </div>
-    <div *ngIf="form.controls.documento.touched && form.controls.documento.invalid">
+    <div *ngIf="form.controls.phone.touched && form.controls.phone.invalid">
       <p
-        *ngIf="form.controls.documento.hasError('required')"
+        *ngIf="form.controls.phone.hasError('required')"
         class="font-medium text-red-500 text-xs mt-1 ml-1"
       >
         Campo obligatorio
       </p>
       <p
-        *ngIf="form.controls.documento.hasError('minLength')"
+        *ngIf="form.controls.phone.hasError('minLength')"
         class="font-medium text-red-500 text-xs mt-1 ml-1"
       >
-        Tu doumento debe tener minimo 8 caracteres
-      </p>
-    </div>
-  </div>
-
-  <!-- email -->
-  <div>
-    <div class="relative">
-      <input
-        #nameInput
-        formControlName="email"
-        placeholder="Ingresa tu email"
-        type="email"
-        name="email"
-        class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
-      />
-    </div>
-    <div *ngIf="form.controls.email.touched && form.controls.email.invalid">
-      <p
-        *ngIf="form.controls.email.hasError('required')"
-        class="font-medium text-red-500 text-xs mt-1 ml-1"
-      >
-         Campo obligatorio
-      </p>
-      <p
-        *ngIf="form.controls.email.hasError('email')"
-        class="font-medium text-red-500 text-xs mt-1 ml-1"
-      >
-        Debe ser un email
+        Tu telefono debe tener minimo 8 caracteres
       </p>
     </div>
   </div>
@@ -265,18 +241,98 @@
         Debe tener mas de 6 caracterres
       </p>
     </div>
+    <div *ngIf="form.controls.confirmPassword.touched">
+      <p
+        *ngIf="form.hasError('mismatch')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Las contraseñas no son iguales
+      </p>
+    </div>
+  </div>
+  
+
+  <!-- tipo documento-->
+  <div>
+    <div class="relative">
+      <select
+        formControlName="tipo"
+        name="tipo"
+        class="w-3/4 rounded bg-gray-50 border-gray-100 border-1 focus:border-gray-500 focus:border-1 focus:ring-0"
+      >
+      <option value=""> Tipo de documento </option>
+      <option value="1"> Cedula </option>
+      <option value="2"> Pasaporte </option>
+      <option value="3"> Cedula Extranjeria</option>
+      <option value="4"> Tajeta de Identidad </option>
+      </select>
+    </div>
+    <div *ngIf="form.controls.tipo.touched && form.controls.tipo.invalid">
+      <p
+        *ngIf="form.controls.tipo.hasError('required')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Campo obligatorio
+      </p>
+    </div>
   </div>
 
-
-
-  <div *ngIf="form.controls.confirmPassword.touched">
-    <p
-      *ngIf="form.hasError('mismatch')"
-      class="font-medium text-red-500 text-xs mt-1 ml-1"
-    >
-      Las contraseñas no son iguales
-    </p>
+  <!-- documento-->
+  <div>
+    <div class="relative">
+      <input
+        formControlName="documento"
+        placeholder="# Documento"
+        type="text"
+        name="documento"
+        class="w-3/4 rounded bg-gray-50 border-gray-100 border-1 focus:border-gray-500 focus:border-1 focus:ring-0"
+      />
+    </div>
+    <div *ngIf="form.controls.documento.touched && form.controls.documento.invalid">
+      <p
+        *ngIf="form.controls.documento.hasError('required')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Campo obligatorio
+      </p>
+      <p
+        *ngIf="form.controls.documento.hasError('minLength')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Tu doumento debe tener minimo 8 caracteres
+      </p>
+    </div>
   </div>
+
+  <!-- email -->
+  <div>
+    <div class="relative">
+      <input
+        #nameInput
+        formControlName="email"
+        placeholder="Ingresa tu email"
+        type="email"
+        name="email"
+        class="w-full rounded bg-gray-50 border-gray-100 border-1 focus:border-gray-500 focus:border-1 focus:ring-0"
+      />
+    </div>
+    <div *ngIf="form.controls.email.touched && form.controls.email.invalid">
+      <p
+        *ngIf="form.controls.email.hasError('required')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Campo obligatorio
+      </p>
+      <p
+        *ngIf="form.controls.email.hasError('email')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Debe ser un email
+      </p>
+    </div>
+  </div>
+
+  
   <div class="text-center">
     <app-btn typeBtn="submit" color="success" [loading]="status === 'loading'"
       >REGISTRATE</app-btn

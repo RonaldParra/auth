@@ -14,25 +14,29 @@ export class RegisterFormComponent {
 
   formUserExist = this.formBuilder.nonNullable.group({
     email: ['', [Validators.email, Validators.required]],
+    tipo: ['', [Validators.required]],
     documento: ['', [Validators.minLength(8), Validators.required]]
   });
   form = this.formBuilder.nonNullable.group({
     name: ['', [Validators.required]],
     lastname: ['', [Validators.required]],
-    tipo: ['', [Validators.required]],
-    documento: ['', [Validators.minLength(8), Validators.required]],
-    email: ['', [Validators.email, Validators.required]],
+    phone: ['', [Validators.minLength(8), Validators.required]],
+    tipo: [{ value: '', disabled: true }, [Validators.required]],
+    documento: [{ value: '', disabled: true }, [Validators.minLength(8), Validators.required]],
+    email: [{ value: '', disabled: true }, []],
     password: ['', [Validators.minLength(8), Validators.required]],
     confirmPassword: ['', [Validators.required]],
   }, {
     validators: [ CustomValidators.MatchValidator('password', 'confirmPassword') ]
   });
+  statusAdminLogin: RequestStatus = 'init';
   status: RequestStatus = 'init';
   statusUserExist: RequestStatus = 'init';
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   showPassword = false;
   showRegister = false;
+  tokenAdmin = ''
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,6 +44,83 @@ export class RegisterFormComponent {
     private authService: AuthService,
   ) {}
 
+  validateUserAfterLog(token: string, email: string, tipo: string, documento: string){
+    console.log('llame a funcion validateUserAfterLog')
+    this.statusUserExist = 'loading';
+    this.authService.isAvailable(token, email, tipo, documento)
+    .subscribe({
+      // si OBTENEMOS ALGUNA RESPUESTA ejecutamos next
+      next: (rta) => {
+        console.log('SE PUDO VERIFICAR SI ESTE REGISTRO YA EXISTE O NO EXISTE')
+        this.statusUserExist = 'success';
+        console.log(rta)
+        console.log(rta.data.exist_customer)
+
+        if (rta.data.exist_customer == 0){
+          this.showRegister = true;
+          this.form.controls.email.setValue(email);
+          this.form.controls.tipo.setValue(tipo);
+          this.form.controls.documento.setValue(documento);
+        } else {
+          this.router.navigate(['/login'], {
+            queryParams: { email }
+          });
+        }
+        
+        
+      },
+      error: (error) => {
+        this.statusUserExist = 'failed';
+        console.log('errorr en la respusta de la api validateUserAfterLog:');
+        console.log(error)
+      }
+    })
+    
+    
+  }
+
+  doLoginadmin(){
+    console.log('llamo a funcion y entro doLoginadmin')
+    // conecto a api de login - envio datos de admin
+        // obtengo respuesta - si es positiva 
+    // conecto a api de validar usuario
+        // obtengo respuesta - si es positiva muestro form de registro
+    
+    if (this.formUserExist.valid) {
+      this.statusAdminLogin = 'loading';
+      const { email } = this.formUserExist.getRawValue();
+      const { tipo } = this.formUserExist.getRawValue();
+      const { documento } = this.formUserExist.getRawValue();
+      // valores email y password deben ser ocultossssss
+      // valores email y password deben ser ocultossssss
+      // valores email y password deben ser ocultossssss
+      const xemail = 'webysistemas@gmail.com'
+      const password = '929e7@2C8Kq'
+      this.authService.loginAdmin(xemail, password)
+      .subscribe({
+        // si OBTENEMOS ALGUNA RESPUESTA ejecutamos next
+        next: (resp) => {
+          console.log('el admin se pudo loguear')
+          console.log(resp.data.token)
+          this.tokenAdmin = resp.data.token
+          this.statusAdminLogin = 'success';
+          // this.router.navigate(['/home'])
+          this.validateUserAfterLog(resp.data.token, email, tipo, documento)
+        },
+        // sino es correcta la respuesta ejecutamos error
+        error: (error) => {
+          console.log('errorr en la respusta de la api:');
+          console.log(error);
+          this.statusAdminLogin = 'failed';
+        }
+      });
+    } else {
+      this.form.markAllAsTouched();
+      console.log('entro en sino de fomr no valido')
+    }
+  }
+
+  /*
   doLoginAdmin() { 
     if (this.form.valid) {
       this.status = 'loading';
@@ -68,13 +149,14 @@ export class RegisterFormComponent {
       this.form.markAllAsTouched();
     }
   }
+  */
 
   register() {
     if (this.form.valid) {
       this.status = 'loading';
-      const { name, lastname, tipo, documento, email, password } = this.form.getRawValue();
+      const { name, lastname, phone, tipo, documento, email, password } = this.form.getRawValue();
       // console.log(name, email, password);
-      this.authService.registerAndLogin(name, lastname, tipo, documento, email, password)
+      this.authService.registerAndLogin(name, lastname, phone, tipo, documento, email, password, this.tokenAdmin)
       .subscribe({
         // si es correcta la respuesta ejecutamos next
         next: () => {
@@ -84,6 +166,7 @@ export class RegisterFormComponent {
         // sino es correcta la respuesta ejecutamos error
         error: (error) => {
           this.status = 'failed';
+          console.log('error en funcion register')
           console.log(error)
         }
       })
@@ -92,6 +175,9 @@ export class RegisterFormComponent {
     }
   }
 
+  
+
+  /*
   validateUser(){
     if (this.formUserExist.valid){
       this.statusUserExist = 'loading';
@@ -100,28 +186,29 @@ export class RegisterFormComponent {
       const { documento } = this.formUserExist.getRawValue();
       this.authService.isAvailable(email, documento)
       .subscribe({
-        next: (rta) => {
-          this.statusUserExist = 'success';
-          console.log(rta)
-          if (rta.isAvailable){
-            this.showRegister = true;
-            this.form.controls.email.setValue(email);
-            this.form.controls.documento.setValue(documento);
-          } else {
-            this.router.navigate(['/login'], {
-              queryParams: { email }
-            });
+          next: (rta) => {
+            this.statusUserExist = 'success';
+            console.log(rta)
+            if (rta.isAvailable){
+              this.showRegister = true;
+              this.form.controls.email.setValue(email);
+              this.form.controls.documento.setValue(documento);
+            } else {
+              this.router.navigate(['/login'], {
+                queryParams: { email }
+              });
+            }
+          },
+          error: (error) => {
+            this.statusUserExist = 'failed';
+            console.log(error)
           }
-        },
-        error: (error) => {
-          this.statusUserExist = 'failed';
-          console.log(error)
-        }
-      })
+        })
     } else {
       this.formUserExist.markAllAsTouched();
     }
   }
+  */
 
   /*
   validateUser(){

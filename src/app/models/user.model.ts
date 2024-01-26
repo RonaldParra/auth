@@ -1,6 +1,19 @@
-export interface User{
-  id: string;
-  name: string;
+export interface User {
+  data:               DataU;
+  count:              number;
+  transaction_status: TransactionStatus;
+}
+
+export interface DataU {
+  first_name: string;
+  last_name: string;
   email: string;
-  avatar: string
+  phone: string;
+  total_points: number,
+  points_expiration: string;
+}
+
+export interface TransactionStatus {
+  code: number;
+  msg:  string;
 }

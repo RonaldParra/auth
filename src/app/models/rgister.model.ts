@@ -1,12 +1,11 @@
-export interface ResponseLogin {
+export interface ResponseValidate {
     data:               Data;
     count:              number;
     transaction_status: TransactionStatus;
 }
 
 export interface Data {
-    token: string;
-    email: string;
+    exist_customer: number;
 }
 
 export interface TransactionStatus {

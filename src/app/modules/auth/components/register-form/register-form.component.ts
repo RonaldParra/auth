@@ -15,16 +15,16 @@ export class RegisterFormComponent {
   formUserExist = this.formBuilder.nonNullable.group({
     email: ['', [Validators.email, Validators.required]],
     tipo: ['', [Validators.required]],
-    documento: ['', [Validators.minLength(8), Validators.required]]
+    documento: ['', [Validators.min(100000), Validators.max(9999999999), Validators.required]]
   });
   form = this.formBuilder.nonNullable.group({
     name: ['', [Validators.required]],
     lastname: ['', [Validators.required]],
-    phone: ['', [Validators.minLength(8), Validators.required]],
+    phone: ['', [Validators.min(100000), Validators.max(9999999999), Validators.required]],
     tipo: [{ value: '', disabled: true }, [Validators.required]],
-    documento: [{ value: '', disabled: true }, [Validators.minLength(8), Validators.required]],
+    documento: [{ value: '', disabled: true }, []],
     email: [{ value: '', disabled: true }, []],
-    password: ['', [Validators.minLength(8), Validators.required]],
+    password: ['', [Validators.minLength(6), Validators.required]],
     confirmPassword: ['', [Validators.required]],
   }, {
     validators: [ CustomValidators.MatchValidator('password', 'confirmPassword') ]
@@ -36,7 +36,11 @@ export class RegisterFormComponent {
   faEyeSlash = faEyeSlash;
   showPassword = false;
   showRegister = false;
-  tokenAdmin = ''
+  tokenAdmin = '';
+  xxx: string = 'hidden';
+  txtMessage: string = ''
+  xxxError: string = 'hidden';
+  txtErrorMessage: string = ''
 
   constructor(
     private formBuilder: FormBuilder,
@@ -151,19 +155,32 @@ export class RegisterFormComponent {
   }
   */
 
-  register() {
+  doRegister() {
     if (this.form.valid) {
       this.status = 'loading';
+      console.log('this.tokenAdmin:  ')
+      console.log(this.tokenAdmin)
       const { name, lastname, phone, tipo, documento, email, password } = this.form.getRawValue();
+      console.log('email y cedula:  ')
+      console.log(email + ' - ' +  documento)
       // console.log(name, email, password);
-      this.authService.registerAndLogin(name, lastname, phone, tipo, documento, email, password, this.tokenAdmin)
+      this.authService.register(name, lastname, phone, tipo, documento, email, password, this.tokenAdmin)
       .subscribe({
-        // si es correcta la respuesta ejecutamos next
-        next: () => {
-          this.status = 'success';
-          this.router.navigate(['/home/pointback'])
+        // si se conecta y obtiene una respuesta ejecutamos next
+        next: (resp) => {
+          if (resp.transaction_status.code === 200){
+            console.log('usuario registrado exitosamente')
+            this.status = 'success';
+            this.txtMessage = 'Exito! Ya puedes empezar a sumar tus Puntos!!!'
+            this.xxx = 'block center bg-green-100 px-6 py-6 mb-6 text-base'          
+            // this.router.navigate(['/home/pointback'])
+          } else {
+            this.status = 'failed';
+            this.txtErrorMessage = 'Hubo un inconveniente, por favor intentalo de nuevo.'
+            this.xxxError = 'block center bg-red-200 px-6 py-6 mb-6 text-base'
+          }          
         },
-        // sino es correcta la respuesta ejecutamos error
+        // sino hubo un problema para conectar con la api
         error: (error) => {
           this.status = 'failed';
           console.log('error en funcion register')

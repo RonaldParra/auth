@@ -51,7 +51,7 @@
       </select>
     </div>
      <!-- mensajes de validacion-->
-    <div *ngIf="form.controls.tipo.touched && form.controls.tipo.invalid">
+    <div *ngIf="formUserExist.controls.tipo.touched && formUserExist.controls.tipo.invalid">
       <p
         *ngIf="form.controls.tipo.hasError('required')"
         class="font-medium text-red-500 text-xs mt-1 ml-1"
@@ -67,8 +67,8 @@
     <div class="relative">
       <input
         formControlName="documento"
-        placeholder="Tu documento de identidad"
-        type="text"
+        placeholder="Tu numero de documento"
+        type="number"
         name="documento"
         class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
       />
@@ -79,13 +79,19 @@
         *ngIf="formUserExist.controls.documento.hasError('required')"
         class="font-medium text-red-500 text-xs mt-1 ml-1"
       >
-        Documento obligatorio
+        Documento obligatorio!!!
       </p>
       <p
-        *ngIf="formUserExist.controls.documento.hasError('minLength')"
+        *ngIf="formUserExist.controls.documento.hasError('min')"
         class="font-medium text-red-500 text-xs mt-1 ml-1"
       >
-        tu documento debe tener mas de 8 digitos 
+        tu documento debe tener mas de 6 digitos 
+      </p>
+      <p
+        *ngIf="formUserExist.controls.documento.hasError('max')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        tu documento debe tener menos de 10 digitos 
       </p>
     </div>
     <!-- fin campo documento ######## -->
@@ -106,7 +112,12 @@
 <!-- #######################3 form registro ######################### -->
 <div *ngIf="showRegister">
 <h1 class="font-bold py-2 text-gray-700 mb-3.5">Por favor dilgencia el resto de información.</h1>
-<form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="register()">
+
+
+<div [class]="xxx" > {{ txtMessage }}</div>
+<div [class]="xxxError" > {{ txtErrorMessage }}</div>
+
+<form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="doRegister()">
 
   <!-- name-->
   <div>
@@ -156,7 +167,7 @@
       <input
         formControlName="phone"
         placeholder="Numero de Telefono"
-        type="tel"
+        type="number"
         name="phone"
         class="w-3/4 rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
       />
@@ -169,10 +180,16 @@
         Campo obligatorio
       </p>
       <p
-        *ngIf="form.controls.phone.hasError('minLength')"
+        *ngIf="form.controls.phone.hasError('min')"
         class="font-medium text-red-500 text-xs mt-1 ml-1"
       >
         Tu telefono debe tener minimo 8 caracteres
+      </p>
+      <p
+        *ngIf="form.controls.phone.hasError('max')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        tu telefono debe tener menos de 10 digitos 
       </p>
     </div>
   </div>
@@ -184,6 +201,7 @@
         formControlName="password"
         placeholder="Nueva contraseña"
         [type]="showPassword ? 'text' : 'password'"
+        name="password"
         class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
       />
       <button
@@ -207,7 +225,7 @@
         *ngIf="form.controls.password.hasError('minlength')"
         class="font-medium text-red-500 text-xs mt-1 ml-1"
       >
-        Debe tener mas de 6 caracterres
+        Debe tener minimo 6 caracterres
       </p>
     </div>
   </div>
@@ -283,7 +301,7 @@
       <input
         formControlName="documento"
         placeholder="# Documento"
-        type="text"
+        type="number"
         name="documento"
         class="w-3/4 rounded bg-gray-50 border-gray-100 border-1 focus:border-gray-500 focus:border-1 focus:ring-0"
       />
@@ -331,7 +349,6 @@
       </p>
     </div>
   </div>
-
   
   <div class="text-center">
     <app-btn typeBtn="submit" color="success" [loading]="status === 'loading'"

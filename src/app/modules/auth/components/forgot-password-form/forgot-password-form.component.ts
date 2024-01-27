@@ -30,13 +30,17 @@ export class ForgotPasswordFormComponent {
       this.authService.recovery(email)
       .subscribe({
         // si es correcta la respuesta ejecutamos next
-        next: () => {
+        next: (resp) => {
+          console.log('sendLink next exitodos')
+          console.log(resp)
           this.status = 'success';
           this.emailSent = true;
           // this.router.navigate(['/home'])
         },
         // sino es correcta la respuesta ejecutamos error
-        error: () => {
+        error: (err) => {
+          console.log('error no se pudo conectar')
+          console.log(err)
           this.status = 'failed';
         }
       });

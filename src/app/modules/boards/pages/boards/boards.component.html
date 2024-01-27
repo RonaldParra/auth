@@ -1,13 +1,31 @@
 <div class="container mx-auto flex mt-10">
 
   <div class="w-full">
+
+    <div class="text-2xl mb-2 text-center">Bienvenido {{user?.first_name}}</div>
+
     <h1 class="text-lg font-bold mb-4 text-center"><fa-icon [icon]="faStar"></fa-icon> Actualmente acumulas: </h1>
     <!-- <div class="grid grid-cols-2 gap-2 bg-red-50">-->
     <div class="text-center bg-red-50 p-2">
       <div class="text-9xl">
+        {{user?.total_points}}
+      </div>
+       <!--
+      <div class="text-9xl">
         <ngx-animated-counter [params]="params"></ngx-animated-counter>
       </div>
+      -->
       <div class="text-5xl"> PUNTOS!</div>
+
+      <div *ngIf=" user?.total_points == 0 || user?.total_points == null else fecVence" class="text-lg font-bold mb-4 text-center">
+        Vamos!!! Es hora de comenzar a acumular tus puntos!
+      </div>
+      <ng-template #fecVence>
+        <h1 class="text-lg font-bold mb-4 text-center"> Fecha de vencimiento:  {{user?.points_expiration}}</h1>
+      </ng-template>
+
+      
+
     </div>
   </div>
 </div>

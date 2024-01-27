@@ -6,7 +6,7 @@ import { TokenService } from '@services/token.service';
 import { ResponseLogin  } from '@models/auth.model';
 import { ResponseValidate  } from '@models/rgister.model';
 import { User } from '@models/user.model';
- 
+  
 @Injectable({
   providedIn: 'root'
 })
@@ -111,15 +111,15 @@ export class AuthService {
       let headers = new HttpHeaders({
         'Api-Key': this.apiKey,
         'Route': 'register_customer_point_back',
-        'Authorization': token
+        'Authorization': `${token}`
         });
       let options = { headers: headers };
-      return this.http.post(`${this.apiUrl}/api_point_back.php`,{
+      return this.http.post<ResponseValidate>(`${this.apiUrl}/api_point_back.php`,{
+        type_document_id,
+        document,
         first_name,
         last_name,
         phone,
-        type_document_id,
-        document,
         email,
         pwd
       }, options)
@@ -127,9 +127,7 @@ export class AuthService {
   
     registerAndLogin(name: string, lastname: string, phone: string, tipo: string, documento: string, email: string, password: string, token: string){
       return this.register(name, lastname, phone, tipo, documento, email, password, token)
-      .pipe(
-        switchMap(() => this.login(email, password))
-      );
+      
     }
 
     isAvailable(token: string, email: string, document_type_id: string, document: string){
@@ -157,9 +155,14 @@ export class AuthService {
     
 
     recovery(email: string){
-      return this.http.post<{isAvailable: boolean}>(`${this.apiUrl}/api/v1/auth/recovery`,{
-        email
-      })
+      const headers = new HttpHeaders();
+      headers.append('Content-Type', 'application/json')
+      var body:any = {
+        "email":email
+        };
+      return this.http.post('https://pointback.cineland.co/mailto/send.php',body,{headers})
+      // return this.httpClient.post<Videojuego>(`${this.baseUrl}/mostrarPorFechas.php`, {FechaInicial, FechaFinal } );
+      //return this.http.post<{isAvailable: boolean}>('https://pointback.cineland.co/mailto/send.php',{email})
     }
 
     changePassword(token: string, newPassword: string){
@@ -170,6 +173,7 @@ export class AuthService {
     }
 
     // lo llamo cuando cargo la navbar con ngOnInit
+    // lo llamo cuando cargo la boards con ngOnInit
     getProfile2(){
       const token = this.tokenService.getToken();
       let headers = new HttpHeaders({

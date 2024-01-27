@@ -152,7 +152,6 @@ export class AuthService {
       })
     }
     */
-    
 
     recovery(email: string){
       const headers = new HttpHeaders();

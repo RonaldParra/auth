@@ -22,6 +22,7 @@ export class ForgotPasswordFormComponent {
     private authService: AuthService,
   ) { }
 
+  
   sendLink() {
     if (this.form.valid) {
       this.status = 'loading';

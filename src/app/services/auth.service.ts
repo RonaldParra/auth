@@ -107,7 +107,7 @@ export class AuthService {
     }
     */
 
-    register(first_name: string, last_name: string, phone: string, type_document_id: string, document: string, email: string, pwd: string, token: string){
+    register(first_name: string, last_name: string, birthday:string, phone: string, type_document_id: string, document: string, email: string, pwd: string, token: string){
       let headers = new HttpHeaders({
         'Api-Key': this.apiKey,
         'Route': 'register_customer_point_back',
@@ -121,13 +121,13 @@ export class AuthService {
         last_name,
         phone,
         email,
-        pwd
+        pwd,
+        birthday
       }, options)
     }
   
-    registerAndLogin(name: string, lastname: string, phone: string, tipo: string, documento: string, email: string, password: string, token: string){
-      return this.register(name, lastname, phone, tipo, documento, email, password, token)
-      
+    registerAndLogin(name: string, lastname: string, birthday:string, phone: string, tipo: string, documento: string, email: string, password: string, token: string){
+      return this.register(name, lastname, birthday, phone, tipo, documento, email, password, token)      
     }
 
     isAvailable(token: string, email: string, document_type_id: string, document: string){

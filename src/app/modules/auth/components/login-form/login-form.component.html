@@ -4,7 +4,10 @@
   <div>
 
 
-    <label *ngIf="mens == true" for="email" class="block text-xs font-semibold my-2"><p> Tu email o documento ya aparece registrado!</p></label>
+    <label *ngIf="mens == true" for="email" class="block text-xs font-semibold my-2">
+      <p> Tu email ya aparece registrado!</p>
+      <p> Si olvidaste tu contraseña, haz cilck en el link correspondiente!</p>
+    </label>
     <div class="relative">
       <input
         #nameInput

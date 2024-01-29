@@ -8,7 +8,7 @@
 
     <!-- ######## campo email -->
     <!-- ######## campo email -->
-    <div class="relative">
+    <div class="relative mb-3">
       <input
         formControlName="email"
         placeholder="Digita tu email"
@@ -35,8 +35,9 @@
     <!-- fin campo email ###########-->
     <!-- fin campo email ###########-->
     
-    <!-- ######## campo tipo documento-->
-    <!-- ######## campo tipo documento-->
+    <!-- ######## campo tipo documento -->
+    <!-- ######## campo tipo documento -->
+    <!--
     <div class="relative my-3">
       <select
         formControlName="tipo"
@@ -50,7 +51,9 @@
         <option value="4"> Tajeta de Identidad </option>
       </select>
     </div>
-     <!-- mensajes de validacion-->
+    -->
+    <!--  mensajes de validacion-->
+    <!--
     <div *ngIf="formUserExist.controls.tipo.touched && formUserExist.controls.tipo.invalid">
       <p
         *ngIf="form.controls.tipo.hasError('required')"
@@ -59,6 +62,7 @@
         Campo obligatorio
       </p>
     </div>
+  -->
     <!-- fin campo tipo documento ###########-->
     <!-- fin campo tipo documento ###########-->
 
@@ -159,6 +163,79 @@
         Campo obligatorio
       </p>
     </div>
+  </div>
+
+  <div class="relative">Tu fecha de cumpleaños: </div>
+  <div class="flex">
+
+     <!-- cell left -->
+    <div class="w-16 mr-5">
+      <div class="relative">
+        Dia*
+        <input
+          formControlName="day"
+          placeholder="31"
+          type="number"
+          name="day"
+          class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
+        />
+      </div>
+      <div *ngIf="form.controls.day.touched && form.controls.day.invalid">
+        <p
+          *ngIf="form.controls.day.hasError('required')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          Vacio
+        </p>
+        <p
+        *ngIf="form.controls.day.hasError('min')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Minimo 1 
+      </p>
+      <p
+        *ngIf="form.controls.day.hasError('max')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Maximo 31
+      </p>
+      </div>
+    </div>
+
+    <!-- cell right -->
+    <div class="w-16">
+      <div class="relative">
+        Mes*
+        <input
+          formControlName="month"
+          placeholder="12"
+          type="number"
+          name="month"
+          class="w-full rounded bg-red-50 border-red-100 border-1 focus:border-red-500 focus:border-1 focus:ring-0"
+        />
+      </div>
+      <div *ngIf="form.controls.month.touched && form.controls.month.invalid">
+        <p
+          *ngIf="form.controls.month.hasError('required')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          Vacio
+        </p>
+        <p
+        *ngIf="form.controls.month.hasError('min')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Minimo 1 
+      </p>
+      <p
+        *ngIf="form.controls.month.hasError('max')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        Maximo 12
+      </p>
+      </div>
+    </div>
+
   </div>
 
   <!-- phone -->
@@ -268,9 +345,9 @@
       </p>
     </div>
   </div>
-  
 
-  <!-- tipo documento-->
+  <!-- tipo documento -->
+  <!--
   <div>
     <div class="relative">
       <select
@@ -294,6 +371,7 @@
       </p>
     </div>
   </div>
+  -->
 
   <!-- documento-->
   <div>

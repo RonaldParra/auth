@@ -14,21 +14,24 @@ export class RegisterFormComponent {
 
   formUserExist = this.formBuilder.nonNullable.group({
     email: ['', [Validators.email, Validators.required]],
-    tipo: ['', [Validators.required]],
+    // tipo: ['', [Validators.required]],
     documento: ['', [Validators.min(100000), Validators.max(9999999999), Validators.required]]
   });
   form = this.formBuilder.nonNullable.group({
     name: ['', [Validators.required]],
     lastname: ['', [Validators.required]],
     phone: ['', [Validators.min(100000), Validators.max(9999999999), Validators.required]],
-    tipo: [{ value: '', disabled: true }, [Validators.required]],
+    // tipo: [{ value: '', disabled: true }, [Validators.required]],
     documento: [{ value: '', disabled: true }, []],
+    day: ['', [Validators.min(1), Validators.max(31), Validators.required]],
+    month: ['', [Validators.min(1), Validators.max(12), Validators.required]],
     email: [{ value: '', disabled: true }, []],
     password: ['', [Validators.minLength(6), Validators.required]],
     confirmPassword: ['', [Validators.required]],
   }, {
     validators: [ CustomValidators.MatchValidator('password', 'confirmPassword') ]
   });
+  tipo: string = '1';
   statusAdminLogin: RequestStatus = 'init';
   status: RequestStatus = 'init';
   statusUserExist: RequestStatus = 'init';
@@ -48,10 +51,10 @@ export class RegisterFormComponent {
     private authService: AuthService,
   ) {}
 
-  validateUserAfterLog(token: string, email: string, tipo: string, documento: string){
+  validateUserAfterLog(token: string, email: string, documento: string){
     console.log('llame a funcion validateUserAfterLog')
     this.statusUserExist = 'loading';
-    this.authService.isAvailable(token, email, tipo, documento)
+    this.authService.isAvailable(token, email, this.tipo, documento)
     .subscribe({
       // si OBTENEMOS ALGUNA RESPUESTA ejecutamos next
       next: (rta) => {
@@ -63,7 +66,7 @@ export class RegisterFormComponent {
         if (rta.data.exist_customer == 0){
           this.showRegister = true;
           this.form.controls.email.setValue(email);
-          this.form.controls.tipo.setValue(tipo);
+          //this.form.controls.tipo.setValue(tipo);
           this.form.controls.documento.setValue(documento);
         } else {
           this.router.navigate(['/login'], {
@@ -93,7 +96,7 @@ export class RegisterFormComponent {
     if (this.formUserExist.valid) {
       this.statusAdminLogin = 'loading';
       const { email } = this.formUserExist.getRawValue();
-      const { tipo } = this.formUserExist.getRawValue();
+      //const { tipo } = this.formUserExist.getRawValue();
       const { documento } = this.formUserExist.getRawValue();
       // valores email y password deben ser ocultossssss
       // valores email y password deben ser ocultossssss
@@ -109,7 +112,7 @@ export class RegisterFormComponent {
           this.tokenAdmin = resp.data.token
           this.statusAdminLogin = 'success';
           // this.router.navigate(['/home'])
-          this.validateUserAfterLog(resp.data.token, email, tipo, documento)
+          this.validateUserAfterLog(resp.data.token, email, documento)
         },
         // sino es correcta la respuesta ejecutamos error
         error: (error) => {
@@ -160,11 +163,28 @@ export class RegisterFormComponent {
       this.status = 'loading';
       console.log('this.tokenAdmin:  ')
       console.log(this.tokenAdmin)
-      const { name, lastname, phone, tipo, documento, email, password } = this.form.getRawValue();
+      let { name, lastname, day, month, phone, documento, email, password } = this.form.getRawValue();
+      console.log('Dia!: ')
+        console.log(day)
+        console.log('mes!: ')
+        console.log(month)
+      if(+day > 0 && +day < 10){
+        day = '0'+ day
+        console.log('Dia: ')
+        console.log(day)
+      }
+      if(+month > 0 && +month < 10){
+        month = '0'+ month
+        console.log('mes: ')
+        console.log(month)
+      }
+      let birthday = day + month
+      console.log('birthday:  ')
+      console.log(birthday)
       console.log('email y cedula:  ')
       console.log(email + ' - ' +  documento)
       // console.log(name, email, password);
-      this.authService.register(name, lastname, phone, tipo, documento, email, password, this.tokenAdmin)
+      this.authService.register(name, lastname, birthday, phone, this.tipo, documento, email, password, this.tokenAdmin)
       .subscribe({
         // si se conecta y obtiene una respuesta ejecutamos next
         next: (resp) => {
